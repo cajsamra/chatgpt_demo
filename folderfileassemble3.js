@@ -53,28 +53,26 @@ async function extractDocxBody(file) {
   return bodyContent;
 }
 
-// Function to call the ChatGPT API
-async function callChatGPTAPI(content) {
-  // Make an API call using the 'content' variable
-  // Replace this code with your actual ChatGPT API call
-  console.log('Calling ChatGPT API with content:', content);
-}
-
-
-
-  
-    
-    
-
+// Function to call the ChatGPT API - input param is text content
 const generate = async (cnts) => {
   
-  const API_URL = "https://api.openai.com/v1/chat/completions";
-  const API_KEY = 'Bearer <put your api key here>'; 
   const resultText = document.getElementById("resultText");
 
-  console.log('Calling ChatGPT API with content:', cnts);
+  //console.log('Calling ChatGPT API with content:', cnts);
   console.log('Using ChatGPT API URL:', API_URL);
   console.log('Using ChatGPT model:', g_selected_model.model);
+  
+  //create the message object
+  let msg = [
+    {
+     role: "system",
+     content: ROLE_DESC,
+    },
+    {
+     role: "user",
+     content: cnts,
+    }
+  ];
 
   const InProgress = document.getElementById("InProgress");
   InProgress.innerText = "ChatGPT is generating your Bio using the " + g_selected_model.model + " model. This may take a minute...";
@@ -89,14 +87,15 @@ const generate = async (cnts) => {
       },
       body: JSON.stringify({
         model: g_selected_model.model,
-//        model: "'" + g_selected_model.name + "'",
-//        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: cnts }],
+        messages: msg,
       }),
     });
 
     const data = await response.json();
     resultText.innerText = data.choices[0].message.content;
+    
+    var element = document.getElementById("resultText");
+	element.scrollIntoView();
 
   } catch (error) {
     console.log("Error returned from API Call"); 
@@ -139,7 +138,11 @@ async function processFolder() {
 	//add the last part to explain to ChatGPT that you expect a bio...and display what you are sending on the page.
 	concatenatedContents += " Please write a detailed bio for me using the above content.";
     inputText.innerText = concatenatedContents;
-	
+
+//	console.log(concatenatedContents);
+    var element = document.getElementById("chatButton");
+	element.scrollIntoView();
+		
 	var inputDiv = document.getElementById("Step2");
     inputDiv.style.display = "block";
 
