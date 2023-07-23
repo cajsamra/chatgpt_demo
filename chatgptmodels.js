@@ -12,13 +12,13 @@ var chatgpt_models = {
 	      desc: "Snapshot of gpt-3.5-turbo from June 13th 2023 with function calling data. Unlike gpt-3.5-turbo, this model will not receive updates, and will be deprecated 3 months after a new version is released.",
 	      model: "gpt-3.5-turbo-0613",
 	    },
-	textdavinci003: {
-	      desc: "Can do any language task with better quality, longer output, and consistent instruction-following than the curie, babbage, or ada models. Also supports some additional features such as inserting text.",
-	      model: "text-davinci-003",
+	gpt4: {
+	      desc: "More capable than any GPT-3.5 model, able to do more complex tasks, and optimized for chat. Will be updated with our latest model iteration 2 weeks after it is released.",
+	      model: "gpt-4",
 	    },
-	textdavinci002: {
-	      desc: "Similar capabilities to text-davinci-003 but trained with supervised fine-tuning instead of reinforcement learning",
-	      model: "text-davinci-002",
+	gpt432k: {
+	      desc: "Same capabilities as the base gpt-4 mode but with 4x the context length. Will be updated with our latest model iteration.",
+	      model: "gpt-4-32k",
 	    },
 }
 
@@ -38,10 +38,10 @@ radio_cmodel.appendChild(b2);
 var b3 = makeRadioButton('model', 'gpt35turbo0613', chatgpt_models.gpt35turbo0613.model + " : " + chatgpt_models.gpt35turbo0613.desc, false);
 radio_cmodel.appendChild(b3);
 
-var b4 = makeRadioButton('model','textdavinci003', chatgpt_models.textdavinci003.model + " : " + chatgpt_models.textdavinci003.desc, false);
+var b4 = makeRadioButton('model','gpt4', chatgpt_models.gpt4.model + " : " + chatgpt_models.gpt4.desc, false);
 radio_cmodel.appendChild(b4);
 
-var b5 = makeRadioButton('model', 'textdavinci002', chatgpt_models.textdavinci002.model + " : " + chatgpt_models.textdavinci002.desc, false);
+var b5 = makeRadioButton('model', 'gpt432k', chatgpt_models.gpt432k.model + " : " + chatgpt_models.gpt432k.desc, false);
 radio_cmodel.appendChild(b5);
 
 //add listener for the model choice
@@ -63,11 +63,11 @@ function setRadioModelValue(modelAbbrev) {
 	  case 'gpt35turbo0613':
 	    g_selected_model = chatgpt_models.gpt35turbo0613;
 	    break;
-	  case 'textdavinci003':
-	    g_selected_model = chatgpt_models.textdavinci003;
+	  case 'gpt4':
+	    g_selected_model = chatgpt_models.gpt4;
 	    break;
-	  case 'textdavinci002':
-	    g_selected_model = chatgpt_models.textdavinci002;
+	  case 'gpt432k':
+	    g_selected_model = chatgpt_models.gpt432k;
 	    break;
 
 	  default:
@@ -79,16 +79,17 @@ function setRadioModelValue(modelAbbrev) {
 function makeRadioButton(name, value, text, checked) {
   
 	var div = document.createElement("div");
-	div.className = "radiodiv";
+	div.className = "form-check";
 
 	var label = document.createElement("label");
 	label.appendChild(document.createTextNode(text));
-	label.className = "radiobutton";
+	label.className = "form-check-label";
 
 	var radio = document.createElement("input");
 	radio.type = "radio";
 	radio.name = name;
 	radio.value = value;
+	radio.className = "form-check-input";
 	
 	if ( checked === true ) { radio.setAttribute("checked", "checked"); }
 	
